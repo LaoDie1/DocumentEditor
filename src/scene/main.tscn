@@ -1,0 +1,259 @@
+[gd_scene load_steps=10 format=3 uid="uid://1cdl84j0caxi"]
+
+[ext_resource type="Script" path="res://src/scene/main.gd" id="1_jw5lx"]
+[ext_resource type="Script" path="res://src/scene/config_tree/config_tree.gd" id="2_n7kkv"]
+[ext_resource type="Script" path="res://addons/simplemenu/simple_menu.gd" id="2_o35m2"]
+[ext_resource type="Script" path="res://src/scene/file_tree.gd" id="3_nv8mj"]
+[ext_resource type="Script" path="res://src/scene/scan_directory_tree.gd" id="4_crlw3"]
+[ext_resource type="Script" path="res://addons/apprentice/multi_split_container.gd" id="4_q58r6"]
+[ext_resource type="PackedScene" uid="uid://ubens8qyhvvr" path="res://src/scene/handle_text_item/handle_text_item.tscn" id="5_kyyrd"]
+[ext_resource type="PackedScene" uid="uid://dhkjoiaw67uw0" path="res://src/scene/tag_container/tag_container.tscn" id="7_jlkxq"]
+[ext_resource type="Script" path="res://src/scene/expand_button.gd" id="8_gvech"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jw5lx")
+
+[node name="OpenFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(600, 500)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+auto_translate_mode = 1
+size = Vector2i(600, 500)
+access = 2
+filters = PackedStringArray("*.txt;Text File")
+
+[node name="DirectoryDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a Directory"
+size = Vector2i(600, 500)
+ok_button_text = "Select Current Folder"
+file_mode = 2
+access = 2
+
+[node name="ConfigDialog" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(700, 450)
+ok_button_text = "Close"
+
+[node name="ConfigTree" type="Tree" parent="ConfigDialog"]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_n7kkv")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SimpleMenu" type="MenuBar" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+flat = true
+script = ExtResource("2_o35m2")
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LeftSplitContainer" type="HSplitContainer" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+split_offset = 280
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "文件："
+
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
+
+[node name="FileTree" type="Tree" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+hide_folding = true
+hide_root = true
+script = ExtResource("3_nv8mj")
+
+[node name="ScanDirectoryTree" type="Tree" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+hide_folding = true
+hide_root = true
+script = ExtResource("4_crlw3")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer"]
+layout_mode = 2
+
+[node name="MiddleSplitContainer" type="HSplitContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 500
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer/VBoxContainer"]
+layout_mode = 2
+text = "文件内容："
+
+[node name="TextEdit" type="CodeEdit" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/search_result_color = Color(1, 0.117188, 0.117188, 1)
+theme_override_font_sizes/font_size = 16
+deselect_on_focus_loss_enabled = false
+wrap_mode = 1
+gutters_draw_line_numbers = true
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer/VBoxContainer2"]
+layout_mode = 2
+text = "多列编辑："
+
+[node name="MultiSplitContainer" type="Control" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/MiddleSplitContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_q58r6")
+scene = ExtResource("5_kyyrd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "字体大小："
+
+[node name="FontSizeSpinBox" type="SpinBox" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 8.0
+max_value = 200.0
+value = 8.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "高亮文字："
+
+[node name="HighlightTextLineEdit" type="LineEdit" parent="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+placeholder_text = "按下回车执行"
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer/VBoxContainer/PanelContainer"]
+modulate = Color(1, 1, 1, 0.698039)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "文件路径："
+
+[node name="CurrentFileLabel" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_top = -4
+theme_override_constants/margin_right = -4
+theme_override_constants/margin_bottom = 4
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer/MarginContainer2"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RightContainer" type="Control" parent="HBoxContainer/MarginContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="TagContainer" parent="HBoxContainer/MarginContainer2/RightContainer" instance=ExtResource("7_jlkxq")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_right = 0.0
+offset_right = 400.0
+grow_vertical = 2
+
+[node name="ExpandButton" type="Button" parent="HBoxContainer/MarginContainer2/RightContainer/TagContainer"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = -57.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = 40.0
+toggle_mode = true
+text = "标签"
+script = ExtResource("8_gvech")
+value = Vector2(-400, 0)
+
+[connection signal="file_selected" from="OpenFileDialog" to="." method="open_file"]
+[connection signal="file_selected" from="SaveFileDialog" to="." method="save_file"]
+[connection signal="dir_selected" from="DirectoryDialog" to="." method="_on_directory_dialog_dir_selected"]
+[connection signal="menu_pressed" from="HBoxContainer/MarginContainer/VBoxContainer/SimpleMenu" to="." method="_on_simple_menu_menu_pressed"]
+[connection signal="item_activated" from="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer/TabContainer/FileTree" to="." method="_on_file_tree_item_activated"]
+[connection signal="item_selected" from="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer/TabContainer/FileTree" to="." method="_on_file_tree_item_selected"]
+[connection signal="item_selected" from="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer/TabContainer/ScanDirectoryTree" to="." method="_on_scan_directory_tree_item_selected"]
+[connection signal="value_changed" from="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer/FontSizeSpinBox" to="." method="_on_font_size_spin_box_value_changed"]
+[connection signal="text_submitted" from="HBoxContainer/MarginContainer/VBoxContainer/LeftSplitContainer/VBoxContainer2/HBoxContainer/HBoxContainer/HighlightTextLineEdit" to="." method="_on_highlight_text_line_edit_text_submitted"]
